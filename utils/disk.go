@@ -22,7 +22,7 @@ func Rename(path, newpath string) error {
 }
 
 type Dir struct {
-	Files map[string]int64
+	Files map[string]int64 // A map string->int64 represents Files
 }
 
 func NewDir() *Dir {
@@ -31,7 +31,7 @@ func NewDir() *Dir {
 	return d
 }
 
-type File struct {
+type File struct { // contain Name and Size
 	Name string
 	Size int64
 }

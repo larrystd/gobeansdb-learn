@@ -21,10 +21,10 @@ var (
 )
 
 func Main() {
-	var version = flag.Bool("version", false, "print version of gobeansdb")
-	var confdir = flag.String("confdir", "", "path of server config dir")
-	var dumpconf = flag.Bool("dumpconf", false, "print configuration")
-	var buildhint = flag.String("buildhint", "", "a data file OR a bucket dir")
+	var version = flag.Bool("version", true, "print version of gobeansdb")
+	var confdir = flag.String("confdir", "/home/larry/goworkspace/gobeansdb/testspace/config", "path of server config dir")
+	var dumpconf = flag.Bool("dumpconf", true, "print configuration")
+	var buildhint = flag.String("buildhint", "/home/larry/goworkspace/gobeansdb/testspace/data", "a data file OR a bucket dir")
 
 	flag.Parse()
 

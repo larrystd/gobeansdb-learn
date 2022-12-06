@@ -1,0 +1,3 @@
+mc:
+  flush_max_str: ""
+  body_max_str: 50M

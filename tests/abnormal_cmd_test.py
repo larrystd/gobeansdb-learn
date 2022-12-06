@@ -9,17 +9,17 @@ class AbnormalCmdTest(BaseTest):
     def setUp(self):
         BaseTest.setUp(self)
         self.store = MCStore(self.db.addr)
-        self.invalid_key = '/this/is/a/bad/key/%s' % chr(15)
+        self.invalid_key = str.encode('/this/is/a/bad/key/%s' % chr(15))
 
     def run_cmd_by_telnet(self, cmd, expected, timeout=2):
         addr, port = self.db.addr.split(':')
         t = telnetlib.Telnet(addr, port)
-        t.write('%s\r\n' % cmd)
-        out = t.read_until('\n', timeout=timeout)
-        t.write('quit\n')
+        t.write(str.encode('%s\r\n' % cmd))
+        out = t.read_until(b'\n', timeout=timeout)
+        t.write(b'quit\n')
         t.close()
-        r = out.strip('\r\n')
-        self.assertEqual(r, expected)
+        r = out.strip(b'\r\n')
+        self.assertEqual(bytes.decode(r), expected)
 
     def test_get(self):
         # get not exist key
@@ -57,10 +57,10 @@ class AbnormalCmdTest(BaseTest):
 
     def test_delete(self):
         key = '/delete/not/exist/key'
-        cmd = 'delete %s' % key
+        cmd = str.encode('delete %s' % key)
         self.run_cmd_by_telnet(cmd, 'NOT_FOUND')
 
-        cmd = 'delete %s' % self.invalid_key
+        cmd = str.encode('delete %s' % self.invalid_key)
         self.run_cmd_by_telnet(cmd, 'NOT_FOUND')
         self.checkCounterZero()
 

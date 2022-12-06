@@ -18,6 +18,6 @@ def mkdir_p(path):
 def random_string(n):
     s = string.ascii_letters
     result = ""
-    for _ in xrange(n):
+    for _ in range(n):
         result += random.choice(s)
     return result

@@ -8,19 +8,19 @@ import shutil
 import socket
 import subprocess
 import json
-import urllib2
+import urllib.request
 import unittest
 
 from tests.dbclient import MCStore
 from tests.utils import mkdir_p
 
 
-GOBEANSDB_CMD = '../../../../bin/gobeansdb'
+GOBEANSDB_CMD = '/home/larry/gocode/bin/gobeansdb'
 
 
 def gethttp(addr, path):
     url = "http://%s/%s" % (addr, path)
-    response = urllib2.urlopen(url)
+    response = urllib.request.urlopen(url)
     return response.read()
 
 
@@ -45,13 +45,13 @@ class BaseTest(unittest.TestCase):
 
     def gc(self, bucket, start=0):
         content = gethttp(self.db.webaddr, "/gc/%x?start=%d&run=true" % (bucket, start))
-        print "gc response", content
+        print ("gc response", content)
         time.sleep(1)
 
 ### start/stop cmd in subprocess
 
 def start_cmd(cmd):
-    print "start", cmd
+    print ("start", cmd)
     log_file = '/tmp/gobeansdb/log.txt'
     mkdir_p(os.path.dirname(log_file))
     with open(log_file, 'a') as f:
@@ -137,7 +137,7 @@ class BeansdbInstance(object):
                 time.sleep(0.5)
 
     def stop(self):
-        print 'stop', self.cmd
+        print ('stop', self.cmd)
         if self.popen:
             stop_cmd(self.popen)
             self.popen = None

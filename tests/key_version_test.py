@@ -38,15 +38,15 @@ class KeyVersionTest(BaseTest):
         self.assertEqual(store.get(key), 'aaa')
         self.assertEqual(self.get_meta(store, key), (1, 0, self.last_pos))
 
-        store.set_raw(key, 'bbb', rev=3)
+        store.set_raw(key, b'bbb', rev=3)
         self.update_pos(256)
         self.assertEqual(self.get_meta(store, key), (3, 0, self.last_pos))
 
-        store.set_raw(key, 'bbb', rev=4)
+        store.set_raw(key, b'bbb', rev=4)
         self.assertEqual(self.get_meta(store, key), (4, 0, self.last_pos))
 
-        store.set_raw(key, 'ccc', rev=2)
-        self.assertEqual(store.get(key), 'bbb')
+        store.set_raw(key, b'ccc', rev=2)
+        self.assertEqual(store.get(key), b'bbb')
         self.assertEqual(self.get_meta(store, key), (4, 0, self.last_pos))
 
         self.checkCounterZero()
@@ -74,7 +74,7 @@ class KeyVersionTest(BaseTest):
 
     def _test_compress(self, overflow):
         store = MCStore(self.db.addr)
-        value = string.letters
+        value = str.encode(string.ascii_letters)
         compressed_value = zlib.compress(value, 0)
         key = 'k' * (256 - len(compressed_value) - 24 + (1 if overflow else 0))
 
@@ -121,7 +121,7 @@ class KeyVersionTest(BaseTest):
         key = 'largekey'
         size = 10 * 1024 * 1024
         rsize = (((size + len(key) + 24) >> 8) + 1) << 8
-        string_large = random_string(size / 10) * 10
+        string_large = random_string(size // 10) * 10
 
         self.assertTrue(store.set(key, string_large))
         self.assertEqual(store.get(key), string_large)
